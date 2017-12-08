@@ -86,7 +86,7 @@ func TestNewAPREQMechToken_and_Marshal(t *testing.T) {
 		KeyValue: make([]byte, 32),
 	}
 
-	mt, err := NewAPREQMechToken(creds, tkt, key, []int{GSS_C_INTEG_FLAG, GSS_C_CONF_FLAG})
+	mt, err := NewAPREQMechToken(creds, tkt, key, []int{GSS_C_INTEG_FLAG, GSS_C_CONF_FLAG}, []int{})
 	if err != nil {
 		t.Fatalf("Error creating MechToken: %v", err)
 	}

@@ -123,13 +123,13 @@ func (m *MechToken) IsKRBError() bool {
 }
 
 // NewAPREQMechToken creates new Kerberos AP_REQ MechToken.
-func NewAPREQMechToken(creds credentials.Credentials, tkt messages.Ticket, sessionKey types.EncryptionKey, flags []int) (MechToken, error) {
+func NewAPREQMechToken(creds credentials.Credentials, tkt messages.Ticket, sessionKey types.EncryptionKey, GSSAPIFlags []int, APOptions []int) (MechToken, error) {
 	var m MechToken
 	m.OID = MechTypeOIDKRB5
 	tb, _ := hex.DecodeString(TOK_ID_KRB_AP_REQ)
 	m.TokID = tb
 
-	auth, err := NewAuthenticator(creds, sessionKey.KeyType, flags)
+	auth, err := NewAuthenticator(creds, sessionKey.KeyType, GSSAPIFlags)
 	if err != nil {
 		return m, err
 	}
@@ -140,6 +140,9 @@ func NewAPREQMechToken(creds credentials.Credentials, tkt messages.Ticket, sessi
 	)
 	if err != nil {
 		return m, err
+	}
+	for _, o := range APOptions {
+		types.SetFlag(&APReq.APOptions, o)
 	}
 	m.APReq = APReq
 	tb, err = APReq.Marshal()

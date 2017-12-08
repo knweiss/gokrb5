@@ -133,7 +133,7 @@ func (n *NegTokenResp) Marshal() ([]byte, error) {
 
 // NewNegTokenInitKrb5 creates new Init negotiation token for Kerberos 5
 func NewNegTokenInitKrb5(creds credentials.Credentials, tkt messages.Ticket, sessionKey types.EncryptionKey) (NegTokenInit, error) {
-	mt, err := NewAPREQMechToken(creds, tkt, sessionKey, []int{GSS_C_INTEG_FLAG, GSS_C_CONF_FLAG})
+	mt, err := NewAPREQMechToken(creds, tkt, sessionKey, []int{GSS_C_INTEG_FLAG, GSS_C_CONF_FLAG}, []int{})
 	if err != nil {
 		return NegTokenInit{}, fmt.Errorf("error getting MechToken; %v", err)
 	}
